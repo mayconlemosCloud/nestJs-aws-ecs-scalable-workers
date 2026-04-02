@@ -1,0 +1,65 @@
+.device-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #E5E7EB; /* Cinza claro de fundo do desktop */
+  padding: 20px;
+}
+
+.device-frame {
+  width: 375px;
+  height: 812px; /* Proporção iPhone X+ */
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow: 
+    0 0 0 10px #1a1a1a, /* Borda interna preta do celular */
+    0 0 0 12px #333333, /* Borda externa meio metálica */
+    0 20px 40px rgba(0,0,0,0.2); /* Sombra pesada */
+  position: relative;
+  overflow: hidden;
+}
+
+.device-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 30px;
+  background-color: #1a1a1a;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  z-index: 100;
+}
+
+/* Opcional: Efeitos de reflexo no vidro */
+.device-frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 40px;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+  pointer-events: none;
+  z-index: 99;
+}
+
+.device-screen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #F4F5F7; /* Itaú Base background */
+}
+
+/* Esconder barra de rolagem no celular */
+.device-screen::-webkit-scrollbar {
+  display: none;
+}
+.device-screen {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

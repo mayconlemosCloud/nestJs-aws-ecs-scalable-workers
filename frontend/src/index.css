@@ -1,0 +1,60 @@
+:root {
+  --bg-color: #050505;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --primary-accent: #00ff88;
+  --error-accent: #ff0055;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --font-family: 'Outfit', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+}
+
+.neon-shadow {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.btn-primary {
+  background: var(--primary-accent);
+  color: #000;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}

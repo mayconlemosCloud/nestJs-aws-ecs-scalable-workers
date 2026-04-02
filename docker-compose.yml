@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # === Banco de Dados Relacional (PostgreSQL) ===
+  postgres:
+    image: postgres:15-alpine
+    container_name: authorizer_db
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: authorizer
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d authorizer"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Cache em Memória Rápida (Redis) ===
+  redis:
+    image: redis:7-alpine
+    container_name: authorizer_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === Aplicação NestJS (Desenvolvimento) ===
+  # A IA deverá gerar a API mapeada aqui para que tudo rode sob a mesma rede Docker.
+  api:
+    build: 
+      context: ./api
+      target: development
+    container_name: authorizer_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://root:root@postgres:5432/authorizer
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./api:/usr/src/app
+      # Protege a pasta 'node_modules' de ser sobrescrita pelo volume host
+      - /usr/src/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  redisdata:
